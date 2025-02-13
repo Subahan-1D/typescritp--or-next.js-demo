@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { NavLinks } from "@/constant/constant";
 import Link from "next/link";
@@ -9,16 +10,35 @@ type Props = {
   openNav: () => void;
 };
 const Nav = ({ openNav }: Props) => {
+  const [setBg, setShowBg] = useState(false);
+  useEffect(() => {
+    const handler = () => {
+      if (window.scrollY >= 90) {
+        setShowBg(true);
+      }
+      if (window.scrollY < 90) {
+        setShowBg(false);
+      }
+    };
+    window.addEventListener("scroll", handler);
+    return () => {
+      window.removeEventListener("scroll", handler);
+    };
+  }, []);
   return (
-    <div className="fixed h-[12vh] z-[10] w-full bg-blue-950">
+    <div
+      className={`fixed ${
+        setBg ? "bg-[#240b39]" : "fixed"
+      }  h-[12vh] z-[10] w-full  transition-all duration-200`}
+    >
       <div className="flex items-center h-full justify-between w-[95%] sm:w-[90%] lg:w-[80%] mx-auto">
         {/* Logo */}
         <Image
-          src="/images/subahan.jpeg"
+          src="/images/subahan.webp"
           alt="LOGO"
           width={66}
           height={66}
-          className="ml-[-1.5rem] sm:ml-0 rounded-md"
+          className="ml-[-1.5rem] sm:ml-0 rounded-full shadow-lg border-2 border-black-500 hover:scale-105 transition-transform duration-300"
         />
 
         {/* Nav Links */}
